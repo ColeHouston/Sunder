@@ -1,18 +1,20 @@
 # Sunder
-Windows rootkit modeled after Lazarus Group's [FudModule rootkit](https://decoded.avast.io/janvojtesek/lazarus-and-the-fudmodule-rootkit-beyond-byovd-with-an-admin-to-kernel-zero-day/). 
+Windows rootkit modeled after Lazarus Group's [FudModule rootkit](https://decoded.avast.io/janvojtesek/lazarus-and-the-fudmodule-rootkit-beyond-byovd-with-an-admin-to-kernel-zero-day/). Reference my [theHandler project]() for an example of the appid.sys driver exploit, which was utilized by Lazarus Group FudModule rootkit (and not blocked as of October 2024). 
+
+*theHandler is coming soon. I will update the link to it once released.*
 
 This rootkit is designed to work with various kernel exploits. This allows you to change the vulnerable driver utilized to gain kernel read and write primitives. Updating the vulnerable driver is necessary to evade Microsoft's [blocked driver list](https://learn.microsoft.com/en-us/windows/security/application-security/application-control/app-control-for-business/design/microsoft-recommended-driver-block-rules).
 
-The vulnerable driver in this GitHub repository is Dell's dbutil_2_3.sys driver. This driver **is blocked** by Microsoft. Reference my [theHandler project]() for an example of the appid.sys driver exploit, which was utilized by Lazarus Group (and not blocked as of October 2024). Execute the following command and reboot to allow loading blocked drivers:
+![PPL editing payload](images/ppl.PNG)
+
+The vulnerable driver in this GitHub repository is Dell's dbutil_2_3.sys driver, since it is a simple vulnerability and therefore makes the rootkit-specific code easier to read. This driver **is blocked** by Microsoft. Execute the following command and reboot to allow loading blocked drivers:
 ```
 bcdedit /debug on
 powershell -c Set-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Control\CI\Config\ -Name VulnerableDriverBlocklistEnable 0
 shutdown -r
 ```
 
-*theHandler is coming soon. I will update the link to it once released.*
-
-Sunder contains the following payloads:
+Sunder contains the following payloads ([See the images directory for screenshots](images)):
 - Token Stealing - Steal a token from any process (spawns cmd.exe, but can be modified to spawn any process)
 - Token Escalation - Add permissions to a given process 
 - ACL Editing - Opens handle to target process despite integrity or PPL protection level
