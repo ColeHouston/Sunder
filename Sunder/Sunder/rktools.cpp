@@ -577,7 +577,6 @@ void rootk(PEXP_OUT rkStruct)
 		case 2:
 			printf("[INJECTION] Editing ACL to inject into PID %d\n", option2);
 			printf("[!] Note the ACL offset is only confirmed valid for winlogon.exe, other processes may be different\n");
-			printf("[!] Edit shellcode contained in inject.cpp to your desired payload (default: nopsled)\n");
 			aclEdit(driverHandle, systemProcess, option2);
 			continue;
 		case 3:
