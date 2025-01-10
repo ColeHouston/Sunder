@@ -7,9 +7,9 @@ This rootkit is designed to work with various kernel exploits. This allows you t
 
 ![PPL editing payload](images/ppl.PNG)
 
-The vulnerable driver in this GitHub repository is Dell's dbutil_2_3.sys driver, since it is a simple vulnerability and therefore makes the rootkit-specific code easier to read. This driver **is blocked** by Microsoft. Execute the following command and reboot to allow loading blocked drivers:
+The vulnerable driver in this GitHub repository is Dell's dbutil_2_3.sys driver, since it is a simple vulnerability and therefore makes the rootkit-specific code easier to read. This driver **is blocked** by Microsoft. Execute the following commands to allow blocked drivers (bcdedit command not required on Windows 11):
 ```
-bcdedit /debug on
+bcdedit /debug on	
 powershell -c Set-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Control\CI\Config\ -Name VulnerableDriverBlocklistEnable 0
 shutdown -r
 ```
@@ -38,10 +38,10 @@ sc start dellserv
 Run this exploit from medium integrity or higher. You must be in high integrity to install the vulnerable driver. 
 
 ## Usage
-Build the exploit in Visual Studio (x64, Release). Execute sunder.exe. You will receive a prompt asking which payload to run; enter a number to execute a post-exploitation payload. 
+Build the exploit in Visual Studio (x64, Release). Execute sunder.exe. You will receive a prompt asking which payload to run. Enter a number to execute a post-exploitation payload. 
 
 ## Stability
-The dbutil_2_3.sys exploit (CVE-2021-21551) is highly stable. Post-exploitation functionality uses hardcoded offsets for a single version of Windows OS; therefore, executing the rootkit on untested OS versions will likely result in a Blue Screen of Death (BSOD).
+The dbutil_2_3.sys exploit (CVE-2021-21551) is highly stable. Post-exploitation functionality uses hardcoded offsets for certain Windows structs; therefore, executing the rootkit on untested OS versions may result in a Blue Screen of Death (BSOD).
 
 The rootkit has been tested on the following Windows versions:
 - Windows 10 Pro build 19045
