@@ -7,7 +7,7 @@ This rootkit is designed to work with various kernel exploits. This allows you t
 
 ![PPL editing payload](images/ppl.PNG)
 
-The vulnerable driver in this GitHub repository is Dell's dbutil_2_3.sys driver, since it is a simple vulnerability and therefore makes the rootkit-specific code easier to read. This driver **is blocked** by Microsoft. Execute the following commands to allow blocked drivers (bcdedit command not required on Windows 11):
+The vulnerable driver in this GitHub repository is Dell's dbutil_2_3.sys driver, since it is a simple vulnerability and therefore makes the rootkit-specific code easier to read. This driver **is blocked** by Microsoft. Execute the following commands to allow blocked drivers *(bcdedit command not required on Windows 11)*:
 ```
 bcdedit /debug on	
 powershell -c Set-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Control\CI\Config\ -Name VulnerableDriverBlocklistEnable 0
