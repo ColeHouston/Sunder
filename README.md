@@ -45,6 +45,7 @@ The dbutil_2_3.sys exploit (CVE-2021-21551) is highly stable. Post-exploitation 
 
 The rootkit has been tested on the following Windows versions:
 - Windows 10 Pro build 19045
+- Windows 11 Enterprise build 22621
 - Windows 11 Enterprise build 26100 
 
 ## Improvements and Additions
