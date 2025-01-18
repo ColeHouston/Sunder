@@ -1,5 +1,5 @@
 # Sunder
-Windows rootkit modeled after Lazarus Group's [FudModule rootkit](https://decoded.avast.io/janvojtesek/lazarus-and-the-fudmodule-rootkit-beyond-byovd-with-an-admin-to-kernel-zero-day/). Reference [this version of Sunder](sunder-appid_exploit) for an example of the appid.sys driver exploit, which was utilized by Lazarus Group FudModule rootkit.
+Windows rootkit modeled after Lazarus Group's [FudModule rootkit](https://decoded.avast.io/janvojtesek/lazarus-and-the-fudmodule-rootkit-beyond-byovd-with-an-admin-to-kernel-zero-day/). Reference [this version of Sunder](Sunder-appid_exploit) for an example of the appid.sys driver exploit, which was utilized by Lazarus Group FudModule rootkit.
 
 Sunder's vulnerable driver in this GitHub repository is Dell's dbutil_2_3.sys driver, since it is a simple vulnerability and therefore makes the rootkit-specific code easier to read. This driver **is blocked** by Microsoft. Execute the following commands to allow blocked drivers *(bcdedit command not required on Windows 11)*:
 ```
