@@ -1,18 +1,16 @@
 # Sunder
-Windows rootkit modeled after Lazarus Group's [FudModule rootkit](https://decoded.avast.io/janvojtesek/lazarus-and-the-fudmodule-rootkit-beyond-byovd-with-an-admin-to-kernel-zero-day/). Reference my [theHandler project]() for an example of the appid.sys driver exploit, which was utilized by Lazarus Group FudModule rootkit (and not blocked as of October 2024). 
+Windows rootkit modeled after Lazarus Group's [FudModule rootkit](https://decoded.avast.io/janvojtesek/lazarus-and-the-fudmodule-rootkit-beyond-byovd-with-an-admin-to-kernel-zero-day/). Reference [this version of Sunder](sunder-appid_exploit) for an example of the appid.sys driver exploit, which was utilized by Lazarus Group FudModule rootkit.
 
-*theHandler is coming soon. I will update the link to it once released.*
-
-This rootkit is designed to work with various kernel exploits. This allows you to change the vulnerable driver utilized to gain kernel read and write primitives. Updating the vulnerable driver is necessary to evade Microsoft's [blocked driver list](https://learn.microsoft.com/en-us/windows/security/application-security/application-control/app-control-for-business/design/microsoft-recommended-driver-block-rules).
-
-![PPL editing payload](images/ppl.PNG)
-
-The vulnerable driver in this GitHub repository is Dell's dbutil_2_3.sys driver, since it is a simple vulnerability and therefore makes the rootkit-specific code easier to read. This driver **is blocked** by Microsoft. Execute the following commands to allow blocked drivers *(bcdedit command not required on Windows 11)*:
+Sunder's vulnerable driver in this GitHub repository is Dell's dbutil_2_3.sys driver, since it is a simple vulnerability and therefore makes the rootkit-specific code easier to read. This driver **is blocked** by Microsoft. Execute the following commands to allow blocked drivers *(bcdedit command not required on Windows 11)*:
 ```
 bcdedit /debug on	
 powershell -c Set-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Control\CI\Config\ -Name VulnerableDriverBlocklistEnable 0
 shutdown -r
 ```
+
+This rootkit is designed to work with various kernel exploits. This allows you to change the vulnerable driver utilized to gain kernel read and write primitives. Updating the vulnerable driver is necessary to evade Microsoft's [blocked driver list](https://learn.microsoft.com/en-us/windows/security/application-security/application-control/app-control-for-business/design/microsoft-recommended-driver-block-rules).
+
+![PPL editing payload](images/ppl.PNG)
 
 Sunder contains the following payloads ([See the images directory for screenshots](images)):
 - Token Stealing - Steal a token from any process (spawns cmd.exe, but can be modified to spawn any process)
@@ -152,4 +150,6 @@ Finally, call the rootkit. This will open an interactive menu to execute various
     	rootk(rootStruct);			// Call rootkit functionality for post-exploitation
 ```
 
+## References
+Thanks to [Nero22k's blog](https://nero22k.github.io/posts/windows-applocker-driver-elevation-of-privilege-cve-2024-21338/) for mentioning the ExpProfileDelete function as a useful gadget for arbitrary decrements (utilized in appid.sys exploit).
 
