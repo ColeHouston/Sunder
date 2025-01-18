@@ -150,6 +150,4 @@ Finally, call the rootkit. This will open an interactive menu to execute various
     	rootk(rootStruct);			// Call rootkit functionality for post-exploitation
 ```
 
-## References
-Thanks to [Nero22k's blog](https://nero22k.github.io/posts/windows-applocker-driver-elevation-of-privilege-cve-2024-21338/) for mentioning the ExpProfileDelete function as a useful gadget for arbitrary decrements (utilized in appid.sys exploit).
 
